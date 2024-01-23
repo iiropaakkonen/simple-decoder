@@ -1,0 +1,32 @@
+def decode(message_file):
+    file = open(message_file, "r")
+
+    lines = {}
+    numbers = []
+    for line in file:
+        values = line.split()
+        key = values[0]
+        numbers.append(key)
+        value = values[1]
+        lines[key] = value
+
+    numbersInt = [eval(i) for i in numbers]
+    numbersInt.sort()
+    step = 1
+    subsets = []
+    while numbersInt:
+        subsets.append(numbersInt[0:step])
+        for i in range(step):
+            numbersInt.pop(0)
+        step += 1
+
+    keywords = []
+    for set in subsets:
+        keywords.append(set[len(set)-1])
+
+    decoded = ""
+    for keyword in keywords:
+        decoded = decoded + lines[str(keyword)] + " "
+    file.close()
+    return decoded
+#decode("encoded.txt")
